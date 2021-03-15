@@ -2,7 +2,7 @@ package com.example.myfitnessassistant;
 
 import android.graphics.drawable.Drawable;
 
-class RecyclerViewItemRoutine {
+class Routine {
     private Drawable icon;
     private String routineTitle;
 

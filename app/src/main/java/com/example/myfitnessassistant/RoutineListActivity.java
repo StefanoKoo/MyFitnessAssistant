@@ -4,28 +4,30 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class RoutineListActivity extends AppCompatActivity implements RoutinesRecyclerAdapter.OnRoutineListener {
     Toolbar mToolbar;
     ActionBar mActionbar;
 
-    RecyclerView routineList;
-    RecyclerViewAdapter mAdapter = null;
-    ArrayList<RecyclerViewItemRoutine> mList;
+    private RecyclerView mRecyclerView;
+    private RoutinesRecyclerAdapter mRoutineRecyclerAdapter = null;
+    ArrayList<Routine> mRoutines;
 
     private Drawable mImageDrawable;
     private String mRoutineText;
@@ -44,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
         /* Toolbar Setup */
         mToolbar = findViewById(R.id.toolbar);
-        mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
         mActionbar = getSupportActionBar();
         mActionbar.setDisplayShowCustomEnabled(true);
@@ -55,13 +56,24 @@ public class MainActivity extends AppCompatActivity {
 
 
         /* Routine List Setup */
-        routineList = findViewById(R.id.list_routines);
-        mList = new ArrayList<>();
+        mRecyclerView = findViewById(R.id.list_routines);
+        mRoutines = new ArrayList<>();
 
-        mAdapter = new RecyclerViewAdapter(mList);
-        routineList.setAdapter(mAdapter);
-        routineList.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        initRecyclerView();
 
+        insertFakeRoutines();
+
+        ImageButton mRoutineAddButton = findViewById(R.id.btn_addRoutine);
+        mRoutineAddButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RoutineListActivity.this,MakeRoutineActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void insertFakeRoutines() {
         mImageDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_dumbell_20, null);
         mRoutineText = "New Routine\n\n\n\n\n\n";
 
@@ -72,21 +84,32 @@ public class MainActivity extends AppCompatActivity {
         addItem(mImageDrawable, mRoutineText);
         addItem(mImageDrawable, mRoutineText);
         addItem(mImageDrawable, mRoutineText);
+    }
 
-        ImageButton mWorkOutAddButton = findViewById(R.id.btn_addRoutine);
-        mWorkOutAddButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,MakeRoutineActivity.class);
-                startActivity(intent);
-            }
-        });
+    private void initRecyclerView() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRoutineRecyclerAdapter = new RoutinesRecyclerAdapter(mRoutines, this);
+        ItemTouchHelper.Callback callback = new MyItemTouchHelper(mRoutineRecyclerAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        mRoutineRecyclerAdapter.setTouchHelper(itemTouchHelper);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        mRecyclerView.setAdapter(mRoutineRecyclerAdapter);
     }
 
     private void addItem(Drawable icon, String mainText) {
-        RecyclerViewItemRoutine item = new RecyclerViewItemRoutine();
+        Routine item = new Routine();
         item.setIcon(icon);
         item.setRoutineTitle(mainText);
-        mList.add(item);
+        mRoutines.add(item);
+    }
+
+    @Override
+    public void onRoutineClick(int position) {
+        Log.d("Test","This is the test");
+        Toast.makeText(this,"Test",Toast.LENGTH_SHORT).show();
+
+//        Intent intent = new Intent(this,MakeRoutineActivity.class);
+//        startActivity(intent);
     }
 }
