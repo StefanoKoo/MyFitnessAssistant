@@ -5,17 +5,16 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import data.Routine;
 
 class RoutinesRecyclerAdapter extends RecyclerView.Adapter<RoutinesRecyclerAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
@@ -59,7 +58,6 @@ class RoutinesRecyclerAdapter extends RecyclerView.Adapter<RoutinesRecyclerAdapt
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Routine routine = mRoutines.get(position);
 
-        holder.routineView.setBackground(routine.getIcon());
         holder.routineTitle.setText(routine.getRoutineTitle());
     }
 

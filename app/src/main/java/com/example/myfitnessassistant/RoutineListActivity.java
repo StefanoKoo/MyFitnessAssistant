@@ -1,5 +1,6 @@
 package com.example.myfitnessassistant;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -7,19 +8,16 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import data.Routine;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -42,6 +40,14 @@ public class RoutineListActivity extends AppCompatActivity implements RoutinesRe
     }
 
     @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Toast.makeText(this,"Home Button Clicked",Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -61,18 +67,12 @@ public class RoutineListActivity extends AppCompatActivity implements RoutinesRe
         mRecyclerView = findViewById(R.id.list_routines);
         mRoutines = new ArrayList<>();
 
+        /* For Debug */
         initRecyclerView();
-
         insertFakeRoutines();
 
-        ImageButton mRoutineAddButton = findViewById(R.id.btn_addRoutine);
-        mRoutineAddButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RoutineListActivity.this,MakeRoutineActivity.class);
-                startActivity(intent);
-            }
-        });
+
+        findViewById(R.id.btn_addRoutine).setOnClickListener(this::onClick);
     }
 
     private void insertFakeRoutines() {
@@ -101,7 +101,6 @@ public class RoutineListActivity extends AppCompatActivity implements RoutinesRe
 
     private void addItem(Drawable icon, String mainText) {
         Routine item = new Routine();
-        item.setIcon(icon);
         item.setRoutineTitle(mainText);
         mRoutines.add(item);
     }
