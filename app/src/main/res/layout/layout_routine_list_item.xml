@@ -42,6 +42,7 @@
             </TextView>
 
             <ImageButton
+                android:id="@+id/expandButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -49,8 +50,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_baseline_more_vert_20"
                 android:tint="@color/maColor"
-                android:backgroundTint="@color/white"
-                android:visibility="gone">
+                android:backgroundTint="@color/white">
             </ImageButton>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

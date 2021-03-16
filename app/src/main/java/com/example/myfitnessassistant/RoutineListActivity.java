@@ -19,9 +19,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
-public class RoutineListActivity extends AppCompatActivity implements RoutinesRecyclerAdapter.OnRoutineListener {
+public class RoutineListActivity extends AppCompatActivity implements RoutinesRecyclerAdapter.OnRoutineListener, RoutinesRecyclerAdapter.OnExpandListener, View.OnClickListener {
     Toolbar mToolbar;
     ActionBar mActionbar;
 
@@ -89,7 +91,7 @@ public class RoutineListActivity extends AppCompatActivity implements RoutinesRe
     private void initRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRoutineRecyclerAdapter = new RoutinesRecyclerAdapter(mRoutines, this);
+        mRoutineRecyclerAdapter = new RoutinesRecyclerAdapter(mRoutines, this, this);
         ItemTouchHelper.Callback callback = new MyItemTouchHelper(mRoutineRecyclerAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         mRoutineRecyclerAdapter.setTouchHelper(itemTouchHelper);
@@ -104,12 +106,22 @@ public class RoutineListActivity extends AppCompatActivity implements RoutinesRe
         mRoutines.add(item);
     }
 
+    // Routine Itself Click
     @Override
     public void onRoutineClick(int position) {
-        Log.d("Test","This is the test");
-        Toast.makeText(this,"Test",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Routine Click Test",Toast.LENGTH_SHORT).show();
+    }
 
-//        Intent intent = new Intent(this,MakeRoutineActivity.class);
-//        startActivity(intent);
+    // Routine Expand Button(Three Dots) Click
+    @Override
+    public void onExpandClick(int position) {
+        Toast.makeText(this,"Expand Click Test",Toast.LENGTH_SHORT).show();
+    }
+
+    // Floating Action Button Click
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(this,MakeRoutineActivity.class);
+        startActivity(intent);
     }
 }
