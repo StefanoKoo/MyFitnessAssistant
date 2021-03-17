@@ -9,13 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFitnessAssistant">
-        <activity android:name=".RoutineListActivity">
+        <activity android:name=".CalendarActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MakeRoutineActivity"></activity>
+        <activity android:name=".RoutineListActivity">
+        </activity>
+        <activity android:name=".MakeRoutineActivity" />
     </application>
 
 </manifest>

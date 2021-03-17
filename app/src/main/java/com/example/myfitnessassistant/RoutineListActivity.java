@@ -50,7 +50,7 @@ public class RoutineListActivity extends AppCompatActivity implements RoutinesRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_routine_list);
 
         /* Toolbar Setup */
         mToolbar = findViewById(R.id.toolbar);
