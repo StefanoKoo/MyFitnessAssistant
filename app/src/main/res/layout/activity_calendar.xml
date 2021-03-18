@@ -4,15 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-        android:id="@+id/calendarView"
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/maColor"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="@color/white"
+            app:layout_scrollFlags="scroll|enterAlways">
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:mcv_showOtherDates="all"
-        app:mcv_selectionColor="@color/maColor">
-    </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
+        android:layout_margin="5dp"
+        app:cardCornerRadius="5dp">
+        <com.applandeo.materialcalendarview.CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:datePicker="true"
+            app:headerColor="@color/maColor"
+            app:selectionColor="@color/maColor"
+            app:eventsEnabled="true"/>
+    </androidx.cardview.widget.CardView>
     <Button
         android:id="@+id/testButton"
+        android:layout_margin="5dp"
+        android:text="Add Schedule"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/maColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </Button>
