@@ -1,23 +1,17 @@
 package com.example.myfitnessassistant;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.motion.widget.MotionHelper;
-import androidx.core.content.ContextCompat;
+import data.MyEventDay;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 
@@ -34,8 +28,9 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
     private Toolbar mToolbar;
     private ActionBar mActionbar;
     private EventDay mDate;
-    private Button mTestButton;
     List<EventDay> mEventDays = new ArrayList<>();
+
+    MyEventDay mEventDay;
 
 
     @Override
@@ -60,15 +55,25 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
     @Override
     public void onDayClick(EventDay eventDay) {
         mDate = eventDay;
+        mEventDay = new MyEventDay(eventDay.getCalendar(),R.drawable.ic_dumbell_15,"Test");
+        mEventDays.add(mEventDay);
+        mCalendarView.setEvents(mEventDays);
 //        Toast.makeText(this,getFormattedDate(eventDay.getCalendar().getTime()),Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(View view) {
-        Calendar mCalendar = mDate.getCalendar();
-        mEventDays.add(new EventDay(mCalendar,R.drawable.ic_baseline_eco_5));
-        mCalendarView.setEvents(mEventDays);
-        Toast.makeText(this,getFormattedDate(mCalendarView.getFirstSelectedDate().getTime()),Toast.LENGTH_SHORT).show();
+//        Calendar mCalendar = mDate.getCalendar();
+//        mEventDays.add(new EventDay(mCalendar,R.drawable.ic_dumbell_15));
+//        Drawable textDrawable = CalendarUtils.getDrawableText(this,"Test123456789", Typeface.SANS_SERIF, R.color.maColor,10);
+//        Drawable textDrawable = MyCalendarUtils.getDrawableText(this,"Test",Typeface.SANS_SERIF,R.color.maColor,9);
+//        mEventDays.add(new EventDay(mCalendar,textDrawable));
+//        mCalendarView.setEvents(mEventDays);
+//        Toast.makeText(this,getFormattedDate(mCalendarView.getFirstSelectedDate().getTime()),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,mEventDay.getNote(),Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this,MakeRoutineActivity.class);
+        intent.putExtra("Test Item",mEventDay);
+        startActivity(intent);
     }
 
     private static String getFormattedDate(Date date) {
