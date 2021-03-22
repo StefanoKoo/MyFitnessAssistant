@@ -5,7 +5,10 @@ import android.os.Parcelable;
 
 import com.applandeo.materialcalendarview.EventDay;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class MyEventDay extends EventDay implements Parcelable {
     private String note;

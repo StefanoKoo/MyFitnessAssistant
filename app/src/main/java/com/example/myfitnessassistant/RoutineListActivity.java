@@ -35,7 +35,7 @@ public class RoutineListActivity extends AppCompatActivity implements RoutinesRe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.action_bar, menu);
+        menuInflater.inflate(R.menu.menu_calendar, menu);
         return true;
     }
 

@@ -1,5 +1,7 @@
 package com.example.myfitnessassistant;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -7,8 +9,11 @@ import data.MyEventDay;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
@@ -17,20 +22,25 @@ import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 public class CalendarActivity extends AppCompatActivity implements OnDayClickListener, View.OnClickListener {
+    private static String TAG = "CalendarActivity";
+
+    private static Integer REQUEST_CODE = 0;
 
     CalendarView mCalendarView;
     private Toolbar mToolbar;
     private ActionBar mActionbar;
     private EventDay mDate;
     List<EventDay> mEventDays = new ArrayList<>();
+    List<MyEventDay> mMyEventDays = new ArrayList<>();
 
     MyEventDay mEventDay;
+
+    private long backKeyPressedTime = 0;
 
 
     @Override
@@ -53,12 +63,32 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_calendar, menu);
+        return true;
+//        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onDayClick(EventDay eventDay) {
-        mDate = eventDay;
-        mEventDay = new MyEventDay(eventDay.getCalendar(),R.drawable.ic_dumbell_15,"Test");
-        mEventDays.add(mEventDay);
-        mCalendarView.setEvents(mEventDays);
-//        Toast.makeText(this,getFormattedDate(eventDay.getCalendar().getTime()),Toast.LENGTH_SHORT).show();
+        // Event 가 있을 때
+        if (mEventDays.contains(eventDay)) {
+            Toast.makeText(this,"Event Exists",Toast.LENGTH_SHORT).show();
+        }
+        // Event 가 없을 때
+        else {
+            Toast.makeText(this,"No Events",Toast.LENGTH_SHORT).show();
+        }
+
+//        mEventDay = new MyEventDay(eventDay.getCalendar(),R.drawable.ic_dumbell_15,"Test");
+//        mEventDays.add(mEventDay);
+//        mCalendarView.setEvents(mEventDays);
     }
 
     @Override
@@ -70,10 +100,14 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
 //        mEventDays.add(new EventDay(mCalendar,textDrawable));
 //        mCalendarView.setEvents(mEventDays);
 //        Toast.makeText(this,getFormattedDate(mCalendarView.getFirstSelectedDate().getTime()),Toast.LENGTH_SHORT).show();
-        Toast.makeText(this,mEventDay.getNote(),Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,mEventDay.getNote(),Toast.LENGTH_SHORT).show();
+
+        MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,"");
+
         Intent intent = new Intent(this,MakeRoutineActivity.class);
-        intent.putExtra("Test Item",mEventDay);
-        startActivity(intent);
+        intent.putExtra("Test Item",today);
+        startActivityForResult(intent,REQUEST_CODE);
+        overridePendingTransition(R.anim.slide_enter,R.anim.slide_exit);
     }
 
     private static String getFormattedDate(Date date) {
@@ -81,4 +115,38 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
         return simpleDateFormat.format(date);
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+
+        // 마지막으로 뒤로가기 버튼을 눌렀던 시간에 2초를 더해 현재시간과 비교 후
+        // 마지막으로 뒤로가기 버튼을 눌렀던 시간이 2초가 지났으면 Toast Show
+        // 2000 milliseconds = 2 seconds
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // 마지막으로 뒤로가기 버튼을 눌렀던 시간에 2초를 더해 현재시간과 비교 후
+        // 마지막으로 뒤로가기 버튼을 눌렀던 시간이 2초가 지나지 않았으면 종료
+        // 현재 표시된 Toast 취소
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+            Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).cancel();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,"");
+                mEventDays.add(today);
+                mCalendarView.setEvents(mEventDays);
+                // TODO : DB에 넣기
+            }
+        }
+    }
 }
