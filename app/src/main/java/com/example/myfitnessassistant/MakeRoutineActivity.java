@@ -12,16 +12,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-public class MakeRoutineActivity extends AppCompatActivity {
+public class MakeRoutineActivity extends AppCompatActivity implements View.OnClickListener{
     private static String TAG = "MakeRoutineActivity";
 
     private Toolbar mToolbar;
     private ActionBar mActionbar;
+    private FloatingActionButton mFloatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +49,9 @@ public class MakeRoutineActivity extends AppCompatActivity {
         mActionbar.setTitle(date);
         Log.d("Test",note);
 
-        //TODO : 운동 기입하는 형식 만들기(운동 이름, 무게, Sets, Reps)
+        findViewById(R.id.add_button).setOnClickListener(this::onClick);
+        //TODO : 운동 기입하는 형식 만들기(팝업 형태로 제작, 포함 항목 : 운동이름, 무게, 세트수, 반복수)
+
     }
 
     @Override
@@ -77,5 +83,12 @@ public class MakeRoutineActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
+    }
+
+    // Floating Action Button Click
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(this,PopUpActivity.class);
+        startActivity(intent);
     }
 }

@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
@@ -29,12 +30,13 @@ import java.util.Locale;
 public class CalendarActivity extends AppCompatActivity implements OnDayClickListener, View.OnClickListener {
     private static String TAG = "CalendarActivity";
 
-    private static Integer REQUEST_CODE = 0;
+    private static Integer REQUEST_MAKE_ROUTINE = 0;
 
     CalendarView mCalendarView;
     private Toolbar mToolbar;
     private ActionBar mActionbar;
     private EventDay mDate;
+    private TextView mTextView;
     List<EventDay> mEventDays = new ArrayList<>();
     List<MyEventDay> mMyEventDays = new ArrayList<>();
 
@@ -60,6 +62,20 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
         mCalendarView = findViewById(R.id.calendarView);
         mCalendarView.setOnDayClickListener(this::onDayClick);
         findViewById(R.id.testButton).setOnClickListener(this::onClick);
+
+        mTextView = findViewById(R.id.show_event_text);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventDay eventDay = new EventDay(mCalendarView.getFirstSelectedDate());
+        Toast.makeText(this,getFormattedDate(eventDay.getCalendar().getTime()),Toast.LENGTH_SHORT).show();
+        if(eventDay instanceof MyEventDay) {
+            Log.d(TAG,"onResume");
+            Toast.makeText(this,((MyEventDay) eventDay).getNote(),Toast.LENGTH_SHORT).show();
+            mTextView.setText(((MyEventDay) eventDay).getNote());
+        }
     }
 
     @Override
@@ -79,13 +95,18 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
     public void onDayClick(EventDay eventDay) {
         // Event 가 있을 때
         if (mEventDays.contains(eventDay)) {
-            Toast.makeText(this,"Event Exists",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,"Event Exists",Toast.LENGTH_SHORT).show();
+            // event 의 노트를 가져오는 방법
+            if(eventDay instanceof MyEventDay) {
+                Toast.makeText(this,((MyEventDay) eventDay).getNote(),Toast.LENGTH_SHORT).show();
+                mTextView.setText(((MyEventDay) eventDay).getNote());
+            }
         }
         // Event 가 없을 때
         else {
-            Toast.makeText(this,"No Events",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,"No Events",Toast.LENGTH_SHORT).show();
+            mTextView.setText("No Events Today");
         }
-
 //        mEventDay = new MyEventDay(eventDay.getCalendar(),R.drawable.ic_dumbell_15,"Test");
 //        mEventDays.add(mEventDay);
 //        mCalendarView.setEvents(mEventDays);
@@ -102,11 +123,11 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
 //        Toast.makeText(this,getFormattedDate(mCalendarView.getFirstSelectedDate().getTime()),Toast.LENGTH_SHORT).show();
 //        Toast.makeText(this,mEventDay.getNote(),Toast.LENGTH_SHORT).show();
 
-        MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,"");
+        MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,"Test");
 
         Intent intent = new Intent(this,MakeRoutineActivity.class);
         intent.putExtra("Test Item",today);
-        startActivityForResult(intent,REQUEST_CODE);
+        startActivityForResult(intent,REQUEST_MAKE_ROUTINE);
         overridePendingTransition(R.anim.slide_enter,R.anim.slide_exit);
     }
 
@@ -140,12 +161,14 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 0) {
+        if (requestCode == REQUEST_MAKE_ROUTINE) {
             if (resultCode == RESULT_OK) {
-                MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,"");
+                MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,"Test");
                 mEventDays.add(today);
                 mCalendarView.setEvents(mEventDays);
-                // TODO : DB에 넣기
+
+                mTextView.setText(today.getNote());
+               // TODO : DB에 넣기
             }
         }
     }

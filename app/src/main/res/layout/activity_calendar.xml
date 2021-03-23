@@ -41,4 +41,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </Button>
+    <TextView
+        android:id="@+id/show_event_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        android:text="No Events Today"></TextView>
 </LinearLayout>
