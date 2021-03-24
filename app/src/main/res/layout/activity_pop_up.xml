@@ -27,6 +27,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,20 +35,22 @@
             android:weightSum="100">
             <TextView
                 android:id="@+id/text_view_name"
-                android:text="Name"
-                android:textSize="15dp"
-                android:textColor="#000"
-                android:alpha="0.87"
-                android:gravity="center"
-                android:layout_marginBottom="3dp"
+                android:text="@string/name_workout"
+                android:layout_height="wrap_content"
+                style="@style/TEXTVIEW_STYLE"/>
+            <EditText
+                android:id="@+id/string_name_workout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="30"/>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="70"/>
+                style="@style/EDITTEXT_STYLE"/>
         </LinearLayout>
+
+
+        <View
+            android:background="#66bdbdbd"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,20 +58,22 @@
             android:weightSum="100">
             <TextView
                 android:id="@+id/text_view_weights"
-                android:text="Weights"
-                android:textSize="15dp"
-                android:textColor="#000"
-                android:alpha="0.87"
-                android:gravity="center"
-                android:layout_marginBottom="3dp"
+                android:text="@string/weight_workout"
+                android:layout_height="wrap_content"
+                style="@style/TEXTVIEW_STYLE"/>
+            <EditText
+                android:id="@+id/double_weight_workout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="30"/>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="70"/>
+                android:inputType="numberDecimal"
+                style="@style/EDITTEXT_STYLE"/>
         </LinearLayout>
+
+        <View
+            android:background="#66bdbdbd"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,20 +81,22 @@
             android:weightSum="100">
             <TextView
                 android:id="@+id/text_view_sets"
-                android:text="Sets"
-                android:textSize="15dp"
-                android:textColor="#000"
-                android:alpha="0.87"
-                android:gravity="center"
-                android:layout_marginBottom="3dp"
+                android:text="@string/sets_workout"
+                android:layout_height="wrap_content"
+                style="@style/TEXTVIEW_STYLE"/>
+            <EditText
+                android:id="@+id/integer_sets_workout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="30"/>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="70"/>
+                android:inputType="numberDecimal"
+                style="@style/EDITTEXT_STYLE"/>
         </LinearLayout>
+
+        <View
+            android:background="#66bdbdbd"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -97,19 +104,15 @@
             android:weightSum="100">
             <TextView
                 android:id="@+id/text_view_reps"
-                android:text="Reps"
-                android:textSize="15dp"
-                android:textColor="#000"
-                android:alpha="0.87"
-                android:gravity="center"
-                android:layout_marginBottom="3dp"
+                android:text="@string/reps_workout"
+                android:layout_height="wrap_content"
+                style="@style/TEXTVIEW_STYLE"/>
+            <EditText
+                android:id="@+id/integer_reps_workout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="30"/>
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="70"/>
+                android:inputType="numberDecimal"
+                style="@style/EDITTEXT_STYLE"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -120,22 +123,39 @@
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 
-    <!-- 닫기 버튼 -->
+    <!-- 확인, 취소 버튼 -->
     <LinearLayout
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="100">
+        <Button
+            android:id="@+id/button_cancel"
+            android:text="@string/cancel"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:padding="16sp"
+            android:gravity="center"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:background="#00000000"/>
+        <View
+            android:background="#66bdbdbd"
+            android:layout_width="1dp"
+            android:layout_height="match_parent" />
         <Button
             android:id="@+id/button_confirm"
-            android:text="확인"
+            android:text="@string/confirm"
             android:textSize="15sp"
             android:textColor="@color/maColor"
-            android:padding="16dp"
+            android:padding="16sp"
             android:gravity="center"
             android:background="#00000000"
-            android:layout_width="match_parent"
-            android:layout_height="53dp"/>
+            android:layout_weight="50"
+            android:layout_width="0sp"
+            android:layout_height="53sp"/>
     </LinearLayout>
-    <!--// 닫기 버튼 -->
+    <!--// 확인, 취소 버튼 -->
 </LinearLayout>

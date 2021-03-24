@@ -1,10 +1,12 @@
 package com.example.myfitnessassistant;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import data.MyEventDay;
+import data.Workout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +24,8 @@ import java.util.Locale;
 
 public class MakeRoutineActivity extends AppCompatActivity implements View.OnClickListener{
     private static String TAG = "MakeRoutineActivity";
+
+    private static Integer REQUEST_POP_UP = 0;
 
     private Toolbar mToolbar;
     private ActionBar mActionbar;
@@ -50,8 +54,6 @@ public class MakeRoutineActivity extends AppCompatActivity implements View.OnCli
         Log.d("Test",note);
 
         findViewById(R.id.add_button).setOnClickListener(this::onClick);
-        //TODO : 운동 기입하는 형식 만들기(팝업 형태로 제작, 포함 항목 : 운동이름, 무게, 세트수, 반복수)
-
     }
 
     @Override
@@ -89,6 +91,22 @@ public class MakeRoutineActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(this,PopUpActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_POP_UP);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_POP_UP) {
+            if (resultCode == RESULT_OK) {
+                Workout mWorkout = data.getParcelableExtra("Workout");
+                Log.d(TAG,mWorkout.getWorkoutName());
+//                Toast.makeText(this,mWorkout.getWorkoutName(),Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Log.d(TAG,"Result Not OK");
+            }
+        }
     }
 }

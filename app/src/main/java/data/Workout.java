@@ -16,6 +16,22 @@ public class Workout implements Parcelable {
         workoutReps = parcel.readInt();
     }
 
+    public String getWorkoutName() {
+        return workoutName;
+    }
+
+    public Double getWorkoutWeight() {
+        return workoutWeight;
+    }
+
+    public Integer getWorkoutSets() {
+        return workoutSets;
+    }
+
+    public Integer getWorkoutReps() {
+        return workoutReps;
+    }
+
     public Workout() {
     }
 
