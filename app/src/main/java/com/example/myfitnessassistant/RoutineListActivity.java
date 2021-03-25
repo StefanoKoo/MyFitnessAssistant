@@ -77,7 +77,7 @@ public class RoutineListActivity extends AppCompatActivity implements RoutinesRe
 
     private void insertFakeRoutines() {
         mImageDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_dumbell_20, null);
-        mRoutineText = "New Routine\n\n\n\n\n\n";
+        mRoutineText = "New Routine";
 
         addItem(mImageDrawable, mRoutineText);
         addItem(mImageDrawable, mRoutineText);
@@ -111,7 +111,7 @@ public class RoutineListActivity extends AppCompatActivity implements RoutinesRe
         Toast.makeText(this,"Routine Click Test",Toast.LENGTH_SHORT).show();
     }
 
-    // Routine Expand Button(Three Dots) Click
+    // Routine Expand Button(Arrow Down) Click
     @Override
     public void onExpandClick(int position) {
         Toast.makeText(this,"Expand Click Test",Toast.LENGTH_SHORT).show();
@@ -120,7 +120,7 @@ public class RoutineListActivity extends AppCompatActivity implements RoutinesRe
     // Floating Action Button Click
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(this,MakeRoutineActivity.class);
+        Intent intent = new Intent(this, WorkoutListActivity.class);
         startActivity(intent);
     }
 }

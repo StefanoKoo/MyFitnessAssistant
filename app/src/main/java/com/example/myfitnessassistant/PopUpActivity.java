@@ -48,6 +48,7 @@ public class PopUpActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case(R.id.button_cancel):
+                Log.d("PopUpActivity","Cancel Button Clicked");
                 finish();
                 break;
         }

@@ -125,7 +125,7 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
 
         MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,"Test");
 
-        Intent intent = new Intent(this,MakeRoutineActivity.class);
+        Intent intent = new Intent(this, WorkoutListActivity.class);
         intent.putExtra("Test Item",today);
         startActivityForResult(intent,REQUEST_MAKE_ROUTINE);
         overridePendingTransition(R.anim.slide_enter,R.anim.slide_exit);

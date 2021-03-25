@@ -17,8 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RoutineListActivity"></activity>
-        <activity android:name=".MakeRoutineActivity"></activity>
+        <activity android:name=".RoutineListActivity">
+        </activity>
+        <activity android:name=".WorkoutListActivity"></activity>
     </application>
 
 </manifest>

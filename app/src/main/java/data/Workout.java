@@ -32,6 +32,22 @@ public class Workout implements Parcelable {
         return workoutReps;
     }
 
+    public void setWorkoutName(String workoutName) {
+        this.workoutName = workoutName;
+    }
+
+    public void setWorkoutWeight(Double workoutWeight) {
+        this.workoutWeight = workoutWeight;
+    }
+
+    public void setWorkoutSets(Integer workoutSets) {
+        this.workoutSets = workoutSets;
+    }
+
+    public void setWorkoutReps(Integer workoutReps) {
+        this.workoutReps = workoutReps;
+    }
+
     public Workout() {
     }
 
