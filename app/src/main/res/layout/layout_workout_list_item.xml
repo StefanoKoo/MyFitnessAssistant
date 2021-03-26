@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_baseline_keyboard_arrow_down_20"
+                    android:src="@drawable/selector_button_expand"
                     android:tint="@color/maColor"
                     android:backgroundTint="@color/white">
                 </ImageButton>
@@ -60,7 +60,8 @@
                 android:id="@+id/view_extended"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="This is Extended CardView">
+                android:text="This is Extended CardView"
+                android:visibility="gone">
             </TextView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

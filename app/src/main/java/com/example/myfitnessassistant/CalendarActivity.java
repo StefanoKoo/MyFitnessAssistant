@@ -70,10 +70,10 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
     protected void onResume() {
         super.onResume();
         EventDay eventDay = new EventDay(mCalendarView.getFirstSelectedDate());
-        Toast.makeText(this,getFormattedDate(eventDay.getCalendar().getTime()),Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,getFormattedDate(eventDay.getCalendar().getTime()),Toast.LENGTH_SHORT).show();
         if(eventDay instanceof MyEventDay) {
             Log.d(TAG,"onResume");
-            Toast.makeText(this,((MyEventDay) eventDay).getNote(),Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this,((MyEventDay) eventDay).getNote(),Toast.LENGTH_SHORT).show();
             mTextView.setText(((MyEventDay) eventDay).getNote());
         }
     }

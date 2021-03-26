@@ -139,6 +139,7 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
                 TransitionManager.beginDelayedTransition((ViewGroup) view.getParent(),new AutoTransition());
                 textView.setVisibility(View.VISIBLE);
             }
+            notifyDataSetChanged();
         }
     }
 

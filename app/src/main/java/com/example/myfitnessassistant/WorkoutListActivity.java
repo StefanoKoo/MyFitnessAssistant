@@ -93,18 +93,19 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
         mRoutineText = "New Routine";
 
         addItem(mImageDrawable, mRoutineText);
-//        addItem(mImageDrawable, mRoutineText);
-//        addItem(mImageDrawable, mRoutineText);
-//        addItem(mImageDrawable, mRoutineText);
-//        addItem(mImageDrawable, mRoutineText);
-//        addItem(mImageDrawable, mRoutineText);
-//        addItem(mImageDrawable, mRoutineText);
+        addItem(mImageDrawable, mRoutineText);
     }
 
     private void addItem(Drawable icon, String mainText) {
         Workout item = new Workout();
         item.setWorkoutName(mainText);
         mWorkouts.add(item);
+        mRecyclerView.getAdapter().notifyDataSetChanged();
+    }
+
+    private void addWorkout(Workout mWorkout) {
+        mWorkouts.add(mWorkout);
+        mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -151,9 +152,8 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
             if (resultCode == RESULT_OK) {
                 Log.d(TAG,"Result OK");
                 Workout mWorkout = data.getParcelableExtra("Workout");
-//                Log.d(TAG,mWorkout.getWorkoutName());
-                Toast.makeText(this,mWorkout.getWorkoutName(),Toast.LENGTH_SHORT).show();
-                addItem(mImageDrawable,mWorkout.getWorkoutName());
+//                addItem(mImageDrawable,mWorkout.getWorkoutName());
+                addWorkout(mWorkout);
             }
             else {
                 Log.d(TAG,"Result Not OK");
@@ -169,14 +169,6 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 
     @Override
     public void onExpandClick(int position) {
-        Toast.makeText(this,"Expand Click Test",Toast.LENGTH_SHORT).show();
-//        if (mExtendedTextView.getVisibility() == View.GONE) {
-//            TransitionManager.beginDelayedTransition(mCardView,new AutoTransition());
-//            mExtendedTextView.setVisibility(View.VISIBLE);
-//        }
-//        else {
-//            TransitionManager.beginDelayedTransition(mCardView,new AutoTransition());
-//            mExtendedTextView.setVisibility(View.GONE);
-//        }
+//        Toast.makeText(this,"Expand Click Test",Toast.LENGTH_SHORT).show();
     }
 }
