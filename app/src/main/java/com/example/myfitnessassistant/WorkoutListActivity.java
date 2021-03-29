@@ -10,8 +10,10 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import data.MyEventDay;
 import data.Workout;
+import data.WorkoutDatabase;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -48,6 +50,8 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     private Drawable mImageDrawable;
     private String mRoutineText;
 
+    WorkoutDatabase db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +78,24 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 
         findViewById(R.id.add_button).setOnClickListener(this::onClick);
 
+        db = Room.databaseBuilder(this,WorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
+
         initComponents();
-        insertFakeRoutines();
+//        insertFakeRoutines();
+        Log.d(TAG,"Shutdown Test");
+
+//        if (db.workoutDao().getWorkoutByName("OHP") != null) {
+//            addWorkout(db.workoutDao().getWorkoutByName("OHP"));
+//        }
+//
+        if (db.workoutDao().getAll().size() != 0) {
+            for (int i = 0; i < db.workoutDao().getAll().size()+1; i++) {
+                if (db.workoutDao().getWorkoutByIndex(i) != null) {
+                    Log.d(TAG,db.workoutDao().getAll().toString());
+                    addWorkout(db.workoutDao().getWorkoutByIndex(i));
+                }
+            }
+        }
     }
 
     private void initComponents() {
@@ -154,6 +174,8 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
                 Workout mWorkout = data.getParcelableExtra("Workout");
 //                addItem(mImageDrawable,mWorkout.getWorkoutName());
                 addWorkout(mWorkout);
+                db.workoutDao().insert(mWorkout);
+                Toast.makeText(this, db.workoutDao().getWorkoutByName(mWorkout.getWorkoutName()).getWorkoutName(),Toast.LENGTH_SHORT).show();
             }
             else {
                 Log.d(TAG,"Result Not OK");

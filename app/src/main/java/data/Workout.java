@@ -3,7 +3,13 @@ package data;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Workout implements Parcelable {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String workoutName;
     private Double workoutWeight;
     private Integer workoutSets;
@@ -14,6 +20,14 @@ public class Workout implements Parcelable {
         workoutWeight = parcel.readDouble();
         workoutSets = parcel.readInt();
         workoutReps = parcel.readInt();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getWorkoutName() {
@@ -46,6 +60,11 @@ public class Workout implements Parcelable {
 
     public void setWorkoutReps(Integer workoutReps) {
         this.workoutReps = workoutReps;
+    }
+
+    @Override
+    public String toString() {
+        return "Workout{" + "id=" + id + ", workoutName='" + workoutName + '\'' + ", workoutWeight=" + workoutWeight + ", workoutSets=" + workoutSets + ", workoutReps=" + workoutReps + '}';
     }
 
     public Workout() {
