@@ -84,12 +84,8 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 //        insertFakeRoutines();
         Log.d(TAG,"Shutdown Test");
 
-//        if (db.workoutDao().getWorkoutByName("OHP") != null) {
-//            addWorkout(db.workoutDao().getWorkoutByName("OHP"));
-//        }
-//
         if (db.workoutDao().getAll().size() != 0) {
-            for (int i = 0; i < db.workoutDao().getAll().size()+1; i++) {
+            for (int i = 1; i <= db.workoutDao().getAll().size() + 1; i++) {
                 if (db.workoutDao().getWorkoutByIndex(i) != null) {
                     Log.d(TAG,db.workoutDao().getAll().toString());
                     addWorkout(db.workoutDao().getWorkoutByIndex(i));
@@ -133,7 +129,6 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_make_routine, menu);
         return true;
-//        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -146,6 +141,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
                 overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
             case R.id.save_routine:
                 Log.d(TAG,"Save Button Clicked");
+                saveWorkoutList(mWorkouts);
                 setResult(RESULT_OK);
                 finish();
                 overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
@@ -172,10 +168,9 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
             if (resultCode == RESULT_OK) {
                 Log.d(TAG,"Result OK");
                 Workout mWorkout = data.getParcelableExtra("Workout");
-//                addItem(mImageDrawable,mWorkout.getWorkoutName());
                 addWorkout(mWorkout);
-                db.workoutDao().insert(mWorkout);
-                Toast.makeText(this, db.workoutDao().getWorkoutByName(mWorkout.getWorkoutName()).getWorkoutName(),Toast.LENGTH_SHORT).show();
+//                db.workoutDao().insert(mWorkout);
+//                Toast.makeText(this, db.workoutDao().getWorkoutByName(mWorkout.getWorkoutName()).getWorkoutName(),Toast.LENGTH_SHORT).show();
             }
             else {
                 Log.d(TAG,"Result Not OK");
@@ -192,5 +187,14 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     @Override
     public void onExpandClick(int position) {
 //        Toast.makeText(this,"Expand Click Test",Toast.LENGTH_SHORT).show();
+    }
+
+    // 현재 Workout 리스트를 DB에 추가
+    public void saveWorkoutList(ArrayList<Workout> mWorkouts) {
+        for (int i = 0; i < mWorkouts.size(); i++) {
+            Workout mWorkout = mWorkouts.get(i);
+//            db.workoutDao().insert(mWorkout);
+            Log.d(TAG,"Workout " + i + " " + mWorkout.getWorkoutName());
+        }
     }
 }

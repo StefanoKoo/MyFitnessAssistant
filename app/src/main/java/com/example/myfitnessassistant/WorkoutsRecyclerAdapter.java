@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import data.Routine;
 import data.Workout;
 
 class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapter.ViewHolder> implements ItemTouchHelperAdapter {
@@ -61,7 +61,10 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Workout workout = mWorkouts.get(position);
 
-        holder.routineTitle.setText(workout.getWorkoutName());
+        holder.workoutTitle.setText(workout.getWorkoutName());
+        holder.weightsView.setText(workout.getWorkoutWeight().toString());
+        holder.setsView.setText(workout.getWorkoutSets().toString());
+        holder.repsView.setText(workout.getWorkoutReps().toString());
     }
 
     @Override
@@ -71,17 +74,21 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener, View.OnClickListener {
         ImageView routineView;
-        TextView routineTitle;
+        TextView workoutTitle;
         ImageButton expandButton;
-        TextView textView;
+        LinearLayout layout;
+        TextView weightsView, setsView, repsView;
         GestureDetector mGestureDetector;
 
         public ViewHolder(View itemView, OnRoutineListener onRoutineListener, OnExpandListener onExpandListener) {
             super(itemView); // 뷰 객체에 대한 참조
             routineView = itemView.findViewById(R.id.routineIcon);
-            routineTitle = itemView.findViewById(R.id.routineTitle);
+            workoutTitle = itemView.findViewById(R.id.workoutTitle);
             expandButton = itemView.findViewById(R.id.expandButton);
-            textView = itemView.findViewById(R.id.view_extended);
+            layout = itemView.findViewById(R.id.layout_extended);
+            weightsView = itemView.findViewById(R.id.text_view_weights);
+            setsView = itemView.findViewById(R.id.text_view_sets);
+            repsView = itemView.findViewById(R.id.text_view_reps);
 
             mOnRoutineListener = onRoutineListener;
             mOnExpandListener = onExpandListener;
@@ -130,14 +137,15 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
 
         @Override
         public void onClick(View view) {
-//            mOnExpandListener.onExpandClick(getAdapterPosition());
-            if (textView.getVisibility() == View.VISIBLE) {
+            if (layout.getVisibility() == View.VISIBLE) {
                 TransitionManager.beginDelayedTransition((ViewGroup) view.getParent(),new AutoTransition());
-                textView.setVisibility(View.GONE);
+                layout.setVisibility(View.GONE);
+                expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_20);
             }
             else {
                 TransitionManager.beginDelayedTransition((ViewGroup) view.getParent(),new AutoTransition());
-                textView.setVisibility(View.VISIBLE);
+                layout.setVisibility(View.VISIBLE);
+                expandButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_20);
             }
             notifyDataSetChanged();
         }

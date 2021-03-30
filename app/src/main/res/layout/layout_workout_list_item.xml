@@ -27,42 +27,135 @@
                     android:src="@drawable/ic_dumbell_20"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_weight="1"
+                    android:layout_weight="4"
                     android:layout_margin="5dp"
                     android:padding="5dp"
                     android:layout_gravity="center">
                 </ImageView>
 
                 <TextView
-                    android:id="@+id/routineTitle"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/workoutTitle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="98"
+                    android:layout_weight="88"
                     android:gravity="center_vertical"
                     android:textSize="20dp"
+                    android:layout_margin="5dp"
                     android:padding="5dp"
                     android:text="Routine Title">
                 </TextView>
 
                 <ImageButton
                     android:id="@+id/expandButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="8"
+                    android:layout_margin="5dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/selector_button_expand"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_down_20"
                     android:tint="@color/maColor"
                     android:backgroundTint="@color/white">
                 </ImageButton>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/view_extended"
+            <View
+                android:background="#66bdbdbd"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <LinearLayout
+                android:id="@+id/layout_extended"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="This is Extended CardView"
+                android:orientation="vertical"
                 android:visibility="gone">
-            </TextView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="29"
+                        android:layout_margin="5dp"
+                        android:textAlignment="center"
+                        android:text="무게"/>
+                    <View
+                        android:background="#66bdbdbd"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/text_view_weights"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="70"
+                        android:layout_margin="5dp"
+                        android:textAlignment="center"
+                        android:text="Hello World"/>
+                </LinearLayout>
+                <View
+                    android:background="#66bdbdbd"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="29"
+                        android:layout_margin="5dp"
+                        android:textAlignment="center"
+                        android:text="세트"/>
+                    <View
+                        android:background="#66bdbdbd"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/text_view_sets"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="70"
+                        android:layout_margin="5dp"
+                        android:textAlignment="center"
+                        android:text="Hello World"/>
+                </LinearLayout>
+                <View
+                    android:background="#66bdbdbd"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="29"
+                        android:layout_margin="5dp"
+                        android:textAlignment="center"
+                        android:text="반복"/>
+                    <View
+                        android:background="#66bdbdbd"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+                    <TextView
+                        android:id="@+id/text_view_reps"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="70"
+                        android:layout_margin="5dp"
+                        android:textAlignment="center"
+                        android:text="Hello World"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

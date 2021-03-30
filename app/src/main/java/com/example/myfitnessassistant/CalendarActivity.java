@@ -114,15 +114,6 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
 
     @Override
     public void onClick(View view) {
-//        Calendar mCalendar = mDate.getCalendar();
-//        mEventDays.add(new EventDay(mCalendar,R.drawable.ic_dumbell_15));
-//        Drawable textDrawable = CalendarUtils.getDrawableText(this,"Test123456789", Typeface.SANS_SERIF, R.color.maColor,10);
-//        Drawable textDrawable = MyCalendarUtils.getDrawableText(this,"Test",Typeface.SANS_SERIF,R.color.maColor,9);
-//        mEventDays.add(new EventDay(mCalendar,textDrawable));
-//        mCalendarView.setEvents(mEventDays);
-//        Toast.makeText(this,getFormattedDate(mCalendarView.getFirstSelectedDate().getTime()),Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this,mEventDay.getNote(),Toast.LENGTH_SHORT).show();
-
         MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,"Test");
 
         Intent intent = new Intent(this, WorkoutListActivity.class);
@@ -138,8 +129,6 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-
         // 마지막으로 뒤로가기 버튼을 눌렀던 시간에 2초를 더해 현재시간과 비교 후
         // 마지막으로 뒤로가기 버튼을 눌렀던 시간이 2초가 지났으면 Toast Show
         // 2000 milliseconds = 2 seconds
