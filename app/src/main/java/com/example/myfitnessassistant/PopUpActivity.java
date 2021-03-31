@@ -29,26 +29,39 @@ public class PopUpActivity extends Activity implements View.OnClickListener {
 
         findViewById(R.id.button_confirm).setOnClickListener(this);
         findViewById(R.id.button_cancel).setOnClickListener(this);
+
+        Intent intent = getIntent();
+        Workout workout = intent.getParcelableExtra("Edit Workout");
+        if (workout != null) {
+            Log.d("Popup",workout.getWorkoutName());
+            mNameWorkout.setText(workout.getWorkoutName());
+            mWeightWorkout.setText(String.valueOf(workout.getWorkoutWeight()));
+            mSetsWorkout.setText(String.valueOf(workout.getWorkoutSets()));
+            mRepsWorkout.setText(String.valueOf(workout.getWorkoutReps()));
+        }
+
     }
 
     @Override
     public void onClick(View view) {
+        Workout mWorkout = new Workout(
+                mNameWorkout.getText().toString(),
+                Double.parseDouble(mWeightWorkout.getText().toString()),
+                Integer.parseInt(mSetsWorkout.getText().toString()),
+                Integer.parseInt(mRepsWorkout.getText().toString()));
+        Intent intent = new Intent();
+        intent.putExtra("Workout", mWorkout);
+
         switch (view.getId()) {
             case(R.id.button_confirm):
                 // MakeRoutine Activity 로 결과 전송
                 Log.d("PopUpActivity","Confirm Button Clicked");
-                Workout mWorkout = new Workout(
-                        mNameWorkout.getText().toString(),
-                        Double.parseDouble(mWeightWorkout.getText().toString()),
-                        Integer.parseInt(mSetsWorkout.getText().toString()),
-                        Integer.parseInt(mRepsWorkout.getText().toString()));
-                Intent intent = new Intent();
-                intent.putExtra("Workout", mWorkout);
                 setResult(RESULT_OK,intent);
                 finish();
                 break;
             case(R.id.button_cancel):
                 Log.d("PopUpActivity","Cancel Button Clicked");
+                setResult(RESULT_CANCELED,intent);
                 finish();
                 break;
         }

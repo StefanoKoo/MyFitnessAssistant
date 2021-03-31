@@ -38,9 +38,9 @@ class RoutinesRecyclerAdapter extends RecyclerView.Adapter<RoutinesRecyclerAdapt
     }
 
     @Override
-    public void onItemSwipe(int position) {
-        mRoutines.remove(position);
-        notifyItemRemoved(position);
+    public void onItemSwipe(RecyclerView.ViewHolder viewHolder, int direction) {
+        mRoutines.remove(viewHolder.getAdapterPosition());
+        notifyItemRemoved(viewHolder.getAdapterPosition());
     }
 
     public void setTouchHelper(ItemTouchHelper touchHelper) {

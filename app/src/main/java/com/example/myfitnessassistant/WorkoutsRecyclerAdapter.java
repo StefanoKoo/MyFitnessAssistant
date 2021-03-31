@@ -1,7 +1,10 @@
 package com.example.myfitnessassistant;
 
+import android.content.Context;
+import android.content.Intent;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,25 +14,30 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 import data.Workout;
+import data.WorkoutDatabase;
 
 class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
     private ArrayList<Workout> mWorkouts = new ArrayList<>();
     private OnRoutineListener mOnRoutineListener;
-    private OnExpandListener mOnExpandListener;
+    private OnSwipeListener mOnSwipeListener;
     private ItemTouchHelper mTouchHelper;
+    WorkoutDatabase db;
 
-    public WorkoutsRecyclerAdapter(ArrayList<Workout> workouts, OnRoutineListener onRoutineListener, OnExpandListener onExpandListener) {
+    public WorkoutsRecyclerAdapter(ArrayList<Workout> workouts, OnRoutineListener onRoutineListener, OnSwipeListener onSwipeListener) {
         this.mWorkouts = workouts;
         this.mOnRoutineListener = onRoutineListener;
-        this.mOnExpandListener = onExpandListener;
+        this.mOnSwipeListener = onSwipeListener;
     }
 
     @Override
@@ -41,9 +49,22 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
     }
 
     @Override
-    public void onItemSwipe(int position) {
-        mWorkouts.remove(position);
-        notifyItemRemoved(position);
+    public void onItemSwipe(RecyclerView.ViewHolder viewHolder, int direction) {
+        db = Room.databaseBuilder(WorkoutListActivity.context,WorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
+        // REMOVE
+        if (direction == ItemTouchHelper.START) {
+            Log.d("SWIPE","REMOVE");
+            mWorkouts.remove(viewHolder.getAdapterPosition());
+            notifyItemRemoved(viewHolder.getAdapterPosition());
+        }
+        // EDIT
+        else if (direction == ItemTouchHelper.END) {
+            Log.d("SWIPE","EDIT");
+            mOnSwipeListener.onWorkoutSwipe(viewHolder.getAdapterPosition(),direction);
+
+            Log.d("SWIPE",db.workoutDao().getAll().toString() + " index : " + viewHolder.getAdapterPosition()+1);
+        }
+//        notifyItemRemoved(viewHolder.getAdapterPosition());
     }
 
     public void setTouchHelper(ItemTouchHelper touchHelper) {
@@ -54,7 +75,7 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_workout_list_item, parent, false);
-        return new ViewHolder(view, mOnRoutineListener, mOnExpandListener);
+        return new ViewHolder(view, mOnRoutineListener, mOnSwipeListener);
     }
 
     @Override
@@ -80,7 +101,7 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
         TextView weightsView, setsView, repsView;
         GestureDetector mGestureDetector;
 
-        public ViewHolder(View itemView, OnRoutineListener onRoutineListener, OnExpandListener onExpandListener) {
+        public ViewHolder(View itemView, OnRoutineListener onRoutineListener, OnSwipeListener onSwipeListener) {
             super(itemView); // 뷰 객체에 대한 참조
             routineView = itemView.findViewById(R.id.routineIcon);
             workoutTitle = itemView.findViewById(R.id.workoutTitle);
@@ -91,7 +112,7 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
             repsView = itemView.findViewById(R.id.text_view_reps);
 
             mOnRoutineListener = onRoutineListener;
-            mOnExpandListener = onExpandListener;
+            mOnSwipeListener = onSwipeListener;
             mGestureDetector = new GestureDetector(itemView.getContext(),this);
 
             itemView.setOnTouchListener(this::onTouch);
@@ -155,7 +176,7 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
         void onRoutineClick(int position);
     }
 
-    public interface OnExpandListener {
-        void onExpandClick(int position);
+    public interface OnSwipeListener {
+        void onWorkoutSwipe(int position, int direction);
     }
 }

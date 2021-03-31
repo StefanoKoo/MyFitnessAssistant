@@ -15,6 +15,7 @@ import data.MyEventDay;
 import data.Workout;
 import data.WorkoutDatabase;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -34,10 +35,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRecyclerAdapter.OnRoutineListener, WorkoutsRecyclerAdapter.OnExpandListener, View.OnClickListener{
+public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRecyclerAdapter.OnRoutineListener, WorkoutsRecyclerAdapter.OnSwipeListener, View.OnClickListener{
     private static String TAG = "MakeRoutineActivity";
 
-    private static Integer REQUEST_POP_UP = 0;
+    static Context context;
+
+    private static int REQUEST_POP_UP = 0;
+    private static int REQUEST_EDIT = 1;
 
     private Toolbar mToolbar;
     private ActionBar mActionbar;
@@ -92,6 +96,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
                 }
             }
         }
+        context = getApplicationContext();
     }
 
     private void initComponents() {
@@ -139,12 +144,14 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
                 Log.d(TAG,"Back Button Clicked");
                 super.onBackPressed();
                 overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
+                break;
             case R.id.save_routine:
                 Log.d(TAG,"Save Button Clicked");
                 saveWorkoutList(mWorkouts);
                 setResult(RESULT_OK);
                 finish();
                 overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -165,15 +172,22 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (requestCode == REQUEST_POP_UP) {
+            // 팝업 창에서 '확인' 버튼을 눌렀을 때 진입
             if (resultCode == RESULT_OK) {
                 Log.d(TAG,"Result OK");
                 Workout mWorkout = data.getParcelableExtra("Workout");
                 addWorkout(mWorkout);
-//                db.workoutDao().insert(mWorkout);
+                db.workoutDao().insert(mWorkout);
 //                Toast.makeText(this, db.workoutDao().getWorkoutByName(mWorkout.getWorkoutName()).getWorkoutName(),Toast.LENGTH_SHORT).show();
             }
+            // 팝업 창에서 '취소' 버튼을 눌렀을 때 진입
             else {
                 Log.d(TAG,"Result Not OK");
+            }
+        }
+        else {
+            if (resultCode == RESULT_OK) {
+                Log.d(TAG,"New Result OK");
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -185,8 +199,11 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     }
 
     @Override
-    public void onExpandClick(int position) {
-//        Toast.makeText(this,"Expand Click Test",Toast.LENGTH_SHORT).show();
+    public void onWorkoutSwipe(int position, int direction) {
+        Log.d(TAG,"onWorkoutSwipe Called");
+        Intent intent = new Intent(this,PopUpActivity.class);
+        intent.putExtra("Edit Workout",mWorkouts.get(position));
+        startActivityForResult(intent,REQUEST_EDIT);
     }
 
     // 현재 Workout 리스트를 DB에 추가

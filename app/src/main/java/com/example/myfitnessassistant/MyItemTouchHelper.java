@@ -65,7 +65,7 @@ public class MyItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-        mAdapter.onItemSwipe(viewHolder.getAdapterPosition());
+        mAdapter.onItemSwipe(viewHolder, direction);
     }
 
     @Override
