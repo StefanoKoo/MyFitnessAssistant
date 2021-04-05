@@ -60,7 +60,9 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_list);
+        context = getApplicationContext();
 
+        // Toolbar
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mActionbar = getSupportActionBar();
@@ -70,24 +72,25 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
         mActionbar.setDisplayHomeAsUpEnabled(true);
         mActionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_20);
 
+        // RecyclerView showing Workout list
         mRecyclerView = findViewById(R.id.list_workouts);
         mWorkouts = new ArrayList<>();
         mImageDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_dumbell_20, null);
 
+        findViewById(R.id.add_button).setOnClickListener(this::onClick);
+
+        // Set toolbar's title with date
         Intent intent = getIntent();
         MyEventDay myEventDay = intent.getParcelableExtra("Test Item");
         String note = myEventDay.getNote();
         String date = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(myEventDay.getCalendar().getTime());
         mActionbar.setTitle(date);
 
-        findViewById(R.id.add_button).setOnClickListener(this::onClick);
-
-        db = Room.databaseBuilder(this,WorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
-
         initComponents();
 //        insertFakeRoutines();
-        Log.d(TAG,"Shutdown Test");
 
+        // Database Init
+        db = Room.databaseBuilder(this,WorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
         if (db.workoutDao().getAll().size() != 0) {
             for (int i = 1; i <= db.workoutDao().getAll().size() + 1; i++) {
                 if (db.workoutDao().getWorkoutByIndex(i) != null) {
@@ -96,7 +99,6 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
                 }
             }
         }
-        context = getApplicationContext();
     }
 
     private void initComponents() {
@@ -178,7 +180,6 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
                 Workout mWorkout = data.getParcelableExtra("Workout");
                 addWorkout(mWorkout);
                 db.workoutDao().insert(mWorkout);
-//                Toast.makeText(this, db.workoutDao().getWorkoutByName(mWorkout.getWorkoutName()).getWorkoutName(),Toast.LENGTH_SHORT).show();
             }
             // 팝업 창에서 '취소' 버튼을 눌렀을 때 진입
             else {
