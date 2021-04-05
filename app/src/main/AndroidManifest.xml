@@ -9,17 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFitnessAssistant">
-        <activity android:name=".PopUpActivity" android:theme="@android:style/Theme.Dialog"></activity>
-        <activity android:name=".CalendarActivity">
+        <activity android:name=".PopUpActivity" android:theme="@android:style/Theme.Dialog" android:launchMode="singleTop"></activity>
+        <activity android:name=".CalendarActivity" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RoutineListActivity">
+        <activity android:name=".RoutineListActivity" android:launchMode="singleTop">
         </activity>
-        <activity android:name=".WorkoutListActivity"></activity>
+        <activity android:name=".WorkoutListActivity" android:launchMode="singleTop"></activity>
     </application>
 
 </manifest>
