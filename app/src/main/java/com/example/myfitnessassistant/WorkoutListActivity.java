@@ -5,12 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+import data.DateWorkout;
+import data.DateWorkoutDatabase;
 import data.MyEventDay;
 import data.Workout;
 import data.WorkoutDatabase;
@@ -19,14 +20,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.transition.AutoTransition;
-import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -55,6 +53,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     private String mRoutineText;
 
     WorkoutDatabase db;
+    DateWorkoutDatabase db2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +87,11 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 
         initComponents();
 //        insertFakeRoutines();
+
+        db2 = Room.databaseBuilder(this,DateWorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
+        DateWorkout dateWorkout = db2.dateWorkoutDao().getDateWorkoutByDate(date);
+        dateWorkout.setWorkouts(mWorkouts);
+
 
         // Database Init
         db = Room.databaseBuilder(this,WorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();

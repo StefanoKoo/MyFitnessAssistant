@@ -10,7 +10,7 @@ import androidx.room.Update;
 @Dao
 public interface DateWorkoutDao {
     @Query("SELECT * FROM DateWorkout WHERE date LIKE :date")
-    DateWorkout getWorkoutsByDate(String date);
+    DateWorkout getDateWorkoutByDate(String date);
 
     @Insert
     void insert(DateWorkout dateWorkout);

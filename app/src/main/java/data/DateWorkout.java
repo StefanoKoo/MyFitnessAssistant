@@ -1,5 +1,7 @@
 package data;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class DateWorkout implements Serializable {
 
     public ArrayList<Workout> getWorkouts() {
         if (workouts == null) {
+            Log.d("DateWorkout","Make New Workouts");
             workouts = new ArrayList<>();
             return workouts;
         }
