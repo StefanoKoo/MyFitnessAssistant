@@ -19,6 +19,7 @@ import data.WorkoutDatabase;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.icu.text.Edits;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -29,8 +30,10 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 
 public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRecyclerAdapter.OnRoutineListener, WorkoutsRecyclerAdapter.OnSwipeListener, View.OnClickListener{
@@ -51,6 +54,9 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 
     private Drawable mImageDrawable;
     private String mRoutineText;
+
+    private DateWorkout dateWorkout;
+    private String date;
 
     WorkoutDatabase db;
     DateWorkoutDatabase db2;
@@ -73,7 +79,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 
         // RecyclerView showing Workout list
         mRecyclerView = findViewById(R.id.list_workouts);
-        mWorkouts = new ArrayList<>();
+//        mWorkouts = new ArrayList<>();
         mImageDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_dumbell_20, null);
 
         findViewById(R.id.add_button).setOnClickListener(this::onClick);
@@ -82,27 +88,38 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
         Intent intent = getIntent();
         MyEventDay myEventDay = intent.getParcelableExtra("Test Item");
         String note = myEventDay.getNote();
-        String date = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(myEventDay.getCalendar().getTime());
+        date = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(myEventDay.getCalendar().getTime());
         mActionbar.setTitle(date);
 
-        initComponents();
+
 //        insertFakeRoutines();
 
         db2 = Room.databaseBuilder(this,DateWorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
-        DateWorkout dateWorkout = db2.dateWorkoutDao().getDateWorkoutByDate(date);
-        dateWorkout.setWorkouts(mWorkouts);
+        dateWorkout = db2.dateWorkoutDao().getDateWorkoutByDate(date);
+        if (dateWorkout == null) {
+            Log.d(TAG,"No Workout Today");
+            dateWorkout = new DateWorkout(date);
+            db2.dateWorkoutDao().insert(dateWorkout);
+        }
+        mWorkouts = dateWorkout.getWorkouts();
+        Log.d(TAG,mWorkouts.toString());
+
+        initComponents();
+
+
+
 
 
         // Database Init
-        db = Room.databaseBuilder(this,WorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
-        if (db.workoutDao().getAll().size() != 0) {
-            for (int i = 1; i <= db.workoutDao().getAll().size() + 1; i++) {
-                if (db.workoutDao().getWorkoutByIndex(i) != null) {
-                    Log.d(TAG,db.workoutDao().getAll().toString());
-                    addWorkout(db.workoutDao().getWorkoutByIndex(i));
-                }
-            }
-        }
+//        db = Room.databaseBuilder(this,WorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
+//        if (db.workoutDao().getAll().size() != 0) {
+//            for (int i = 1; i <= db.workoutDao().getAll().size() + 1; i++) {
+//                if (db.workoutDao().getWorkoutByIndex(i) != null) {
+//                    Log.d(TAG,db.workoutDao().getAll().toString());
+//                    addWorkout(db.workoutDao().getWorkoutByIndex(i));
+//                }
+//            }
+//        }
     }
 
     private void initComponents() {
@@ -131,6 +148,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     }
 
     private void addWorkout(Workout mWorkout) {
+        Log.d(TAG,"ADD");
         mWorkouts.add(mWorkout);
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
@@ -183,7 +201,6 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
                 Log.d(TAG,"Result OK");
                 Workout mWorkout = data.getParcelableExtra("Workout");
                 addWorkout(mWorkout);
-                db.workoutDao().insert(mWorkout);
             }
             // 팝업 창에서 '취소' 버튼을 눌렀을 때 진입
             else {
@@ -213,10 +230,6 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 
     // 현재 Workout 리스트를 DB에 추가
     public void saveWorkoutList(ArrayList<Workout> mWorkouts) {
-        for (int i = 0; i < mWorkouts.size(); i++) {
-            Workout mWorkout = mWorkouts.get(i);
-//            db.workoutDao().insert(mWorkout);
-            Log.d(TAG,"Workout " + i + " " + mWorkout.getWorkoutName());
-        }
+        db2.dateWorkoutDao().updateWorkouts(date,mWorkouts);
     }
 }

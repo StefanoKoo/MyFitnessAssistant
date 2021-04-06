@@ -20,7 +20,17 @@ public class DateWorkout implements Serializable {
     private ArrayList<Workout> workouts;
 
     public DateWorkout() {
+    }
 
+    public DateWorkout(String date) {
+        ArrayList<Workout> workouts = new ArrayList<>();
+        this.date = date;
+        this.workouts = workouts;
+    }
+
+    public DateWorkout(String date, ArrayList<Workout> mWorkouts) {
+        this.date = date;
+        this.workouts = mWorkouts;
     }
 
     public String getDate() {
@@ -42,5 +52,10 @@ public class DateWorkout implements Serializable {
 
     public void setWorkouts(ArrayList<Workout> workouts) {
         this.workouts = workouts;
+    }
+
+    @Override
+    public String toString() {
+        return "DateWorkout{" + "date=" + date + ", workouts=" + workouts + '}';
     }
 }

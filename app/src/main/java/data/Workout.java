@@ -6,9 +6,7 @@ import android.os.Parcelable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
 public class Workout implements Parcelable {
-    @PrimaryKey(autoGenerate = true)
     private int id;
     private String workoutName;
     private Double workoutWeight;
