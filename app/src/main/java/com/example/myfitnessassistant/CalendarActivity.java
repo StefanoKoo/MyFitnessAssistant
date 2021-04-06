@@ -5,7 +5,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import data.DateWorkoutDatabase;
 import data.MyEventDay;
+import data.Workout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -44,6 +48,8 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
 
     private long backKeyPressedTime = 0;
 
+    DateWorkoutDatabase db2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +70,43 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
         findViewById(R.id.testButton).setOnClickListener(this::onClick);
 
         mTextView = findViewById(R.id.show_event_text);
+
+        db2 = Room.databaseBuilder(this,DateWorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
+        ArrayList<Workout> mWorkouts = db2.dateWorkoutDao().getDateWorkoutByDate(getFormattedDate(mCalendarView.getFirstSelectedDate().getTime())).getWorkouts();
+        if ( mWorkouts!= null) {
+            String summary = "";
+
+            for (Workout mWorkout:mWorkouts) {
+                summary += mWorkout.getWorkoutName() + " : " +
+                        mWorkout.getWorkoutWeight() + "kg " +
+                        mWorkout.getWorkoutSets() + " X " + mWorkout.getWorkoutReps() + "\n";
+            }
+            mTextView.setText(summary);
+        }
     }
 
     @Override
     protected void onResume() {
-        super.onResume();
+        Log.d(TAG,"onResume1");
         EventDay eventDay = new EventDay(mCalendarView.getFirstSelectedDate());
 //        Toast.makeText(this,getFormattedDate(eventDay.getCalendar().getTime()),Toast.LENGTH_SHORT).show();
         if(eventDay instanceof MyEventDay) {
-            Log.d(TAG,"onResume");
+//            Log.d(TAG,"onResume");
 //            Toast.makeText(this,((MyEventDay) eventDay).getNote(),Toast.LENGTH_SHORT).show();
-            mTextView.setText(((MyEventDay) eventDay).getNote());
+//            ArrayList<Workout> mWorkouts = db2.dateWorkoutDao().getDateWorkoutByDate(getFormattedDate(eventDay.getCalendar().getTime())).getWorkouts();
+//            if ( mWorkouts!= null) {
+//                String summary = "";
+//                Log.d(TAG,"onResume2");
+//                for (Workout mWorkout:mWorkouts) {
+//                    summary += mWorkout.getWorkoutName() + " : " +
+//                            mWorkout.getWorkoutWeight() + "kg " +
+//                            mWorkout.getWorkoutSets() + " X " + mWorkout.getWorkoutReps() + "\n";
+//                }
+//                mTextView.setText(summary);
+//            }
+//            mTextView.setText(((MyEventDay) eventDay).getNote());
         }
+        super.onResume();
     }
 
     @Override
@@ -98,7 +129,6 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
 //            Toast.makeText(this,"Event Exists",Toast.LENGTH_SHORT).show();
             // event 의 노트를 가져오는 방법
             if(eventDay instanceof MyEventDay) {
-                Toast.makeText(this,((MyEventDay) eventDay).getNote(),Toast.LENGTH_SHORT).show();
                 mTextView.setText(((MyEventDay) eventDay).getNote());
             }
         }
@@ -152,12 +182,12 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
 
         if (requestCode == REQUEST_MAKE_ROUTINE) {
             if (resultCode == RESULT_OK) {
-                MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,"Test");
+                String note = data.getStringExtra("workouts_summary");
+                MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,note);
                 mEventDays.add(today);
                 mCalendarView.setEvents(mEventDays);
 
                 mTextView.setText(today.getNote());
-               // TODO : DB에 넣기
             }
         }
     }

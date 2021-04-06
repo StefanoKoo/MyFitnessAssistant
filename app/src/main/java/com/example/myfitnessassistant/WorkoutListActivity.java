@@ -19,7 +19,6 @@ import data.WorkoutDatabase;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.icu.text.Edits;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -30,10 +29,8 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Locale;
 
 public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRecyclerAdapter.OnRoutineListener, WorkoutsRecyclerAdapter.OnSwipeListener, View.OnClickListener{
@@ -172,7 +169,10 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
             case R.id.save_routine:
                 Log.d(TAG,"Save Button Clicked");
                 saveWorkoutList(mWorkouts);
-                setResult(RESULT_OK);
+                Log.d(TAG, setWorkoutsString(mWorkouts));
+                Intent intent = new Intent();
+                intent.putExtra("workouts_summary",setWorkoutsString(mWorkouts));
+                setResult(RESULT_OK,intent);
                 finish();
                 overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
                 break;
@@ -231,5 +231,16 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     // 현재 Workout 리스트를 DB에 추가
     public void saveWorkoutList(ArrayList<Workout> mWorkouts) {
         db2.dateWorkoutDao().updateWorkouts(date,mWorkouts);
+    }
+
+    public String setWorkoutsString(ArrayList<Workout> workouts) {
+        String summary = "";
+
+        for (Workout mWorkout:workouts) {
+            summary += mWorkout.getWorkoutName() + " : " +
+                    mWorkout.getWorkoutWeight() + "kg " +
+                    mWorkout.getWorkoutSets() + " X " + mWorkout.getWorkoutReps() + "\n";
+        }
+        return summary;
     }
 }
