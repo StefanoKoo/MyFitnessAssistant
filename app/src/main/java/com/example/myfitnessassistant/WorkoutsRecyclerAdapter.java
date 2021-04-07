@@ -53,10 +53,12 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
     @Override
     public void onItemSwipe(RecyclerView.ViewHolder viewHolder, int direction) {
         db2 = Room.databaseBuilder(WorkoutListActivity.context, DateWorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
+        String date = WorkoutListActivity.date;
         // REMOVE
         if (direction == ItemTouchHelper.START) {
             Log.d("SWIPE","REMOVE");
             mWorkouts.remove(viewHolder.getAdapterPosition());
+            db2.dateWorkoutDao().delete(db2.dateWorkoutDao().getDateWorkoutByDate(date));
             notifyItemRemoved(viewHolder.getAdapterPosition());
         }
         // EDIT

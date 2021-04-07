@@ -96,7 +96,10 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
     protected void onResume() {
         super.onResume();
         Log.d(TAG,"onResume");
+        mEventDays.clear();
+        mCalendarView.setEvents(mEventDays);
         List<DateWorkout> allDateWorkouts = db2.dateWorkoutDao().getAll();
+        Log.d("onResume2",allDateWorkouts.toString());
 
         for (DateWorkout dateWorkout:allDateWorkouts) {
             String from = dateWorkout.getDate();
@@ -115,24 +118,27 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
         }
         mCalendarView.setEvents(mEventDays);
         EventDay eventDay;
-        if (db2.dateWorkoutDao().getDateWorkoutByDate(getFormattedDate(mCalendarView.getFirstSelectedDate().getTime())).getWorkouts().size() != 0) {
-            eventDay = new EventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15);
-            mEventDays.add(eventDay);
-            mCalendarView.setEvents(mEventDays);
-        }
-        else {
-            eventDay = new EventDay(mCalendarView.getFirstSelectedDate());
-        }
-
-        ArrayList<Workout> mWorkouts = db2.dateWorkoutDao().getDateWorkoutByDate(getFormattedDate(eventDay.getCalendar().getTime())).getWorkouts();
-        if ( mWorkouts!= null) {
-            String summary = "";
-            for (Workout mWorkout:mWorkouts) {
-                summary += mWorkout.getWorkoutName() + " : " +
-                        mWorkout.getWorkoutWeight() + "kg " +
-                        mWorkout.getWorkoutSets() + " X " + mWorkout.getWorkoutReps() + "\n";
+        DateWorkout test = db2.dateWorkoutDao().getDateWorkoutByDate(getFormattedDate(mCalendarView.getFirstSelectedDate().getTime()));
+        if (test != null) {
+            if (test.getWorkouts().size() != 0) {
+                eventDay = new EventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15);
+                mEventDays.add(eventDay);
+                mCalendarView.setEvents(mEventDays);
             }
-            mTextView.setText(summary);
+            else {
+                eventDay = new EventDay(mCalendarView.getFirstSelectedDate());
+            }
+
+            ArrayList<Workout> mWorkouts = db2.dateWorkoutDao().getDateWorkoutByDate(getFormattedDate(eventDay.getCalendar().getTime())).getWorkouts();
+            if ( mWorkouts!= null) {
+                String summary = "";
+                for (Workout mWorkout:mWorkouts) {
+                    summary += mWorkout.getWorkoutName() + " : " +
+                            mWorkout.getWorkoutWeight() + "kg " +
+                            mWorkout.getWorkoutSets() + " X " + mWorkout.getWorkoutReps() + "\n";
+                }
+                mTextView.setText(summary);
+            }
         }
     }
 

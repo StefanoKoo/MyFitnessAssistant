@@ -53,7 +53,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     private String mRoutineText;
 
     private DateWorkout dateWorkout;
-    private String date;
+    public static String date;
 
     WorkoutDatabase db;
     DateWorkoutDatabase db2;
