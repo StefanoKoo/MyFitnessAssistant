@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
+import data.DateWorkoutDatabase;
 import data.Workout;
 import data.WorkoutDatabase;
 
@@ -33,6 +34,7 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
     private OnSwipeListener mOnSwipeListener;
     private ItemTouchHelper mTouchHelper;
     WorkoutDatabase db;
+    DateWorkoutDatabase db2;
 
     public WorkoutsRecyclerAdapter(ArrayList<Workout> workouts, OnRoutineListener onRoutineListener, OnSwipeListener onSwipeListener) {
         this.mWorkouts = workouts;
@@ -50,7 +52,7 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
 
     @Override
     public void onItemSwipe(RecyclerView.ViewHolder viewHolder, int direction) {
-        db = Room.databaseBuilder(WorkoutListActivity.context,WorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
+        db2 = Room.databaseBuilder(WorkoutListActivity.context, DateWorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
         // REMOVE
         if (direction == ItemTouchHelper.START) {
             Log.d("SWIPE","REMOVE");
@@ -61,8 +63,6 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
         else if (direction == ItemTouchHelper.END) {
             Log.d("SWIPE","EDIT");
             mOnSwipeListener.onWorkoutSwipe(viewHolder.getAdapterPosition(),direction);
-
-            Log.d("SWIPE",db.workoutDao().getAll().toString() + " index : " + viewHolder.getAdapterPosition()+1);
         }
 //        notifyItemRemoved(viewHolder.getAdapterPosition());
     }

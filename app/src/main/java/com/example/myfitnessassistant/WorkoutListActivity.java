@@ -83,9 +83,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 
         // Set toolbar's title with date
         Intent intent = getIntent();
-        MyEventDay myEventDay = intent.getParcelableExtra("Test Item");
-        String note = myEventDay.getNote();
-        date = new SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(myEventDay.getCalendar().getTime());
+        date = intent.getStringExtra("Date");
         mActionbar.setTitle(date);
 
 
@@ -102,21 +100,6 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
         Log.d(TAG,mWorkouts.toString());
 
         initComponents();
-
-
-
-
-
-        // Database Init
-//        db = Room.databaseBuilder(this,WorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
-//        if (db.workoutDao().getAll().size() != 0) {
-//            for (int i = 1; i <= db.workoutDao().getAll().size() + 1; i++) {
-//                if (db.workoutDao().getWorkoutByIndex(i) != null) {
-//                    Log.d(TAG,db.workoutDao().getAll().toString());
-//                    addWorkout(db.workoutDao().getWorkoutByIndex(i));
-//                }
-//            }
-//        }
     }
 
     private void initComponents() {
