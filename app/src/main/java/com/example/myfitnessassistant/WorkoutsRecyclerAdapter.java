@@ -1,7 +1,5 @@
 package com.example.myfitnessassistant;
 
-import android.content.Context;
-import android.content.Intent;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -14,12 +12,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -58,7 +54,7 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
         if (direction == ItemTouchHelper.START) {
             Log.d("SWIPE","REMOVE");
             mWorkouts.remove(viewHolder.getAdapterPosition());
-            db2.dateWorkoutDao().delete(db2.dateWorkoutDao().getDateWorkoutByDate(date));
+            db2.DateWorkoutDao().delete(db2.DateWorkoutDao().getDateWorkoutByDate(date));
             notifyItemRemoved(viewHolder.getAdapterPosition());
         }
         // EDIT

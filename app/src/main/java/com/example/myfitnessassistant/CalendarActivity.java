@@ -8,8 +8,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.room.Room;
 import data.DateWorkout;
 import data.DateWorkoutDatabase;
-import data.MyEventDay;
 import data.Workout;
+import data.WorkoutName;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,18 +41,15 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
     CalendarView mCalendarView;
     private Toolbar mToolbar;
     private ActionBar mActionbar;
-    private EventDay mDate;
     private TextView mTextView;
     List<EventDay> mEventDays = new ArrayList<>();
-    List<MyEventDay> mMyEventDays = new ArrayList<>();
-
-    MyEventDay mEventDay;
 
     private long backKeyPressedTime = 0;
 
     DateWorkoutDatabase db2;
 
 
+    // TODO - TextView 가 잘 반영되지 않는 문제가 있음
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,29 +73,31 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
 
 
         db2 = Room.databaseBuilder(this,DateWorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
-        ArrayList<Workout> mWorkouts = db2.dateWorkoutDao().getDateWorkoutByDate(getFormattedDate(mCalendarView.getFirstSelectedDate().getTime())).getWorkouts();
-        if ( mWorkouts.size() != 0) {
-            String summary = "";
-            for (Workout mWorkout:mWorkouts) {
-                summary += mWorkout.getWorkoutName() + " : " +
-                        mWorkout.getWorkoutWeight() + "kg " +
-                        mWorkout.getWorkoutSets() + " X " + mWorkout.getWorkoutReps() + "\n";
-            }
-            mTextView.setText(summary);
-        }
-        else {
-            mTextView.setText("No Events Today");
-        }
+//        ArrayList<Workout> mWorkouts = db2.DateWorkoutDao().getDateWorkoutByDate(getFormattedDate(mCalendarView.getFirstSelectedDate().getTime())).getWorkouts();
+//        if ( mWorkouts.size() != 0) {
+//            String summary = "";
+//            for (Workout mWorkout:mWorkouts) {
+//                summary += mWorkout.getWorkoutName() + " : " +
+//                        mWorkout.getWorkoutWeight() + "kg " +
+//                        mWorkout.getWorkoutSets() + " X " + mWorkout.getWorkoutReps() + "\n";
+//            }
+//            mTextView.setText(summary);
+//            Log.d(TAG,"Test5678");
+//        }
+//        else {
+//            mTextView.setText("No Events Today");
+//        }
     }
 
     // TODO - 추후 DB 에 날짜를 Date 에서 Month / Weak / Day 로 Column 저장
+    // TODO - Code Refactoring
    @Override
     protected void onResume() {
         super.onResume();
         Log.d(TAG,"onResume");
         mEventDays.clear();
         mCalendarView.setEvents(mEventDays);
-        List<DateWorkout> allDateWorkouts = db2.dateWorkoutDao().getAll();
+        List<DateWorkout> allDateWorkouts = db2.DateWorkoutDao().getAll();
         Log.d("onResume2",allDateWorkouts.toString());
 
         for (DateWorkout dateWorkout:allDateWorkouts) {
@@ -114,11 +113,10 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
         }
         mCalendarView.setEvents(mEventDays);
         EventDay eventDay;
-        DateWorkout test = db2.dateWorkoutDao().getDateWorkoutByDate(getFormattedDate(mCalendarView.getFirstSelectedDate().getTime()));
+        DateWorkout test = db2.DateWorkoutDao().getDateWorkoutByDate(getFormattedDate(mCalendarView.getFirstSelectedDate().getTime()));
         if (test != null) {
             if (test.getWorkouts().size() != 0) {
                 eventDay = new EventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15);
@@ -129,7 +127,7 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
                 eventDay = new EventDay(mCalendarView.getFirstSelectedDate());
             }
 
-            ArrayList<Workout> mWorkouts = db2.dateWorkoutDao().getDateWorkoutByDate(getFormattedDate(eventDay.getCalendar().getTime())).getWorkouts();
+            ArrayList<Workout> mWorkouts = db2.DateWorkoutDao().getDateWorkoutByDate(getFormattedDate(eventDay.getCalendar().getTime())).getWorkouts();
             if ( mWorkouts!= null) {
                 String summary = "";
                 for (Workout mWorkout:mWorkouts) {
@@ -140,6 +138,9 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
                 mTextView.setText(summary);
             }
         }
+        else {
+            mTextView.setText("No Events Today");
+        }
     }
 
     @Override
@@ -147,11 +148,16 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu_calendar, menu);
         return true;
-//        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.database:
+                Intent intent = new Intent(this, WorkoutNameListActivity.class);
+                startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -161,7 +167,7 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
         // Event 가 있을 때
         if (mEventDays.contains(eventDay)) {
             // event 의 노트를 가져오는 방법
-            mTextView.setText(workoutsToString(db2.dateWorkoutDao().getDateWorkoutByDate(getFormattedDate(eventDay.getCalendar().getTime())).getWorkouts()));
+            mTextView.setText(workoutsToString(db2.DateWorkoutDao().getDateWorkoutByDate(getFormattedDate(eventDay.getCalendar().getTime())).getWorkouts()));
         }
         // Event 가 없을 때
         else {
@@ -209,11 +215,9 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
         if (requestCode == REQUEST_MAKE_ROUTINE) {
             if (resultCode == RESULT_OK) {
                 String note = data.getStringExtra("workouts_summary");
-                MyEventDay today = new MyEventDay(mCalendarView.getFirstSelectedDate(),R.drawable.ic_dumbell_15,note);
+                EventDay today = new EventDay(mCalendarView.getFirstSelectedDate());
                 mEventDays.add(today);
                 mCalendarView.setEvents(mEventDays);
-
-                mTextView.setText(today.getNote());
             }
         }
     }

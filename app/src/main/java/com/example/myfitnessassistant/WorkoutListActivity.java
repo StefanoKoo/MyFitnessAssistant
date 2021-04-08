@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 import data.DateWorkout;
 import data.DateWorkoutDatabase;
-import data.MyEventDay;
 import data.Workout;
 import data.WorkoutDatabase;
 
@@ -27,11 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRecyclerAdapter.OnRoutineListener, WorkoutsRecyclerAdapter.OnSwipeListener, View.OnClickListener{
     private static String TAG = "MakeRoutineActivity";
@@ -43,7 +38,6 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 
     private Toolbar mToolbar;
     private ActionBar mActionbar;
-    private FloatingActionButton mFloatingActionButton;
 
     private RecyclerView mRecyclerView;
     private WorkoutsRecyclerAdapter mWorkoutRecyclerAdapter;
@@ -76,7 +70,6 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 
         // RecyclerView showing Workout list
         mRecyclerView = findViewById(R.id.list_workouts);
-//        mWorkouts = new ArrayList<>();
         mImageDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_dumbell_20, null);
 
         findViewById(R.id.add_button).setOnClickListener(this::onClick);
@@ -90,11 +83,11 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 //        insertFakeRoutines();
 
         db2 = Room.databaseBuilder(this,DateWorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
-        dateWorkout = db2.dateWorkoutDao().getDateWorkoutByDate(date);
+        dateWorkout = db2.DateWorkoutDao().getDateWorkoutByDate(date);
         if (dateWorkout == null) {
             Log.d(TAG,"No Workout Today");
             dateWorkout = new DateWorkout(date);
-            db2.dateWorkoutDao().insert(dateWorkout);
+            db2.DateWorkoutDao().insert(dateWorkout);
         }
         mWorkouts = dateWorkout.getWorkouts();
         Log.d(TAG,mWorkouts.toString());
@@ -136,7 +129,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_make_routine, menu);
+        menuInflater.inflate(R.menu.menu_workout_list, menu);
         return true;
     }
 
@@ -149,7 +142,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
                 super.onBackPressed();
                 overridePendingTransition(R.anim.slide_in,R.anim.slide_out);
                 break;
-            case R.id.save_routine:
+            case R.id.save_workouts:
                 Log.d(TAG,"Save Button Clicked");
                 saveWorkoutList(mWorkouts);
                 Log.d(TAG, setWorkoutsString(mWorkouts));
@@ -213,7 +206,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
 
     // 현재 Workout 리스트를 DB에 추가
     public void saveWorkoutList(ArrayList<Workout> mWorkouts) {
-        db2.dateWorkoutDao().updateWorkouts(date,mWorkouts);
+        db2.DateWorkoutDao().updateWorkouts(date,mWorkouts);
     }
 
     public String setWorkoutsString(ArrayList<Workout> workouts) {

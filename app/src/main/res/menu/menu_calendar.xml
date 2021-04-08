@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
-        android:id="@+id/settings"
-        android:title="Settings"
-        android:icon="@drawable/ic_baseline_settings_20"
-        app:showAsAction="always"></item>
-
+        android:id="@+id/database"
+        android:title="Database"
+        android:icon="@drawable/ic_baseline_storage_24"
+        app:showAsAction="always"/>
+<!--    <item-->
+<!--        android:id="@+id/settings"-->
+<!--        android:title="Settings"-->
+<!--        android:icon="@drawable/ic_baseline_settings_20"-->
+<!--        app:showAsAction="always"/>-->
 </menu>
