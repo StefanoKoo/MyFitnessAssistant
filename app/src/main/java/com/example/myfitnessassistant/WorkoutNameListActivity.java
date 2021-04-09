@@ -9,6 +9,7 @@ import androidx.room.RoomDatabase;
 import data.WorkoutNameDao;
 import data.WorkoutNameDatabase;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,6 +23,8 @@ public class WorkoutNameListActivity extends AppCompatActivity {
     private ActionBar mActionbar;
 
     private WorkoutNameDatabase db_workout_name;
+
+    static Context context;
 
 
     @Override

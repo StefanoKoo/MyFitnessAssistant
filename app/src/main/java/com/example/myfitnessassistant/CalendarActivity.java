@@ -9,7 +9,6 @@ import androidx.room.Room;
 import data.DateWorkout;
 import data.DateWorkoutDatabase;
 import data.Workout;
-import data.WorkoutName;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -73,20 +72,6 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
 
 
         db2 = Room.databaseBuilder(this,DateWorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();
-//        ArrayList<Workout> mWorkouts = db2.DateWorkoutDao().getDateWorkoutByDate(getFormattedDate(mCalendarView.getFirstSelectedDate().getTime())).getWorkouts();
-//        if ( mWorkouts.size() != 0) {
-//            String summary = "";
-//            for (Workout mWorkout:mWorkouts) {
-//                summary += mWorkout.getWorkoutName() + " : " +
-//                        mWorkout.getWorkoutWeight() + "kg " +
-//                        mWorkout.getWorkoutSets() + " X " + mWorkout.getWorkoutReps() + "\n";
-//            }
-//            mTextView.setText(summary);
-//            Log.d(TAG,"Test5678");
-//        }
-//        else {
-//            mTextView.setText("No Events Today");
-//        }
     }
 
     // TODO - 추후 DB 에 날짜를 Date 에서 Month / Weak / Day 로 Column 저장

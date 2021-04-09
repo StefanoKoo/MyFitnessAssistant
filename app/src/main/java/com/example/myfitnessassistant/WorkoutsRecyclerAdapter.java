@@ -46,6 +46,7 @@ class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapt
         notifyItemMoved(fromPosition, toPosition);
     }
 
+    // TODO - DB 를 OnCreateViewHolder 에서 Build 해도 정상작동하는지 확인
     @Override
     public void onItemSwipe(RecyclerView.ViewHolder viewHolder, int direction) {
         db2 = Room.databaseBuilder(WorkoutListActivity.context, DateWorkoutDatabase.class,"DB_Workout").allowMainThreadQueries().build();

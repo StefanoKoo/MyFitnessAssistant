@@ -30,6 +30,7 @@
             app:datePicker="true"
             app:headerColor="@color/maColor"
             app:selectionColor="@color/maColor"
+            app:todayLabelColor="@color/red"
             app:eventsEnabled="true"/>
     </androidx.cardview.widget.CardView>
     <Button

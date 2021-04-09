@@ -17,8 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:titleTextColor="@color/white"
-            app:layout_scrollFlags="scroll|enterAlways">
-        </androidx.appcompat.widget.Toolbar>
+            app:layout_scrollFlags="scroll|enterAlways"/>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -27,8 +26,7 @@
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_button"
@@ -37,7 +35,6 @@
         android:src="@drawable/ic_baseline_add_30"
         android:backgroundTint="@color/maColor"
         android:layout_gravity="bottom|right"
-        android:layout_margin="30dp">
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        android:layout_margin="30dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
