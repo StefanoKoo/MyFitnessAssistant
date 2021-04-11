@@ -5,9 +5,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import data.WorkoutNameDao;
-import data.WorkoutNameDatabase;
+
+import com.example.myfitnessassistant.data.WorkoutNameDatabase;
 
 import android.content.Context;
 import android.os.Bundle;

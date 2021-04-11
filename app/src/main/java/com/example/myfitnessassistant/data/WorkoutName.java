@@ -1,4 +1,4 @@
-package data;
+package com.example.myfitnessassistant.data;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

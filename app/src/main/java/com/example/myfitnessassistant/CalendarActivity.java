@@ -6,9 +6,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.room.Room;
-import data.DateWorkout;
-import data.DateWorkoutDatabase;
-import data.Workout;
+import com.example.myfitnessassistant.data.DateWorkout;
+import com.example.myfitnessassistant.data.DateWorkoutDatabase;
+import com.example.myfitnessassistant.data.Workout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,7 +48,7 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
     DateWorkoutDatabase db2;
 
 
-    // TODO - TextView 가 잘 반영되지 않는 문제가 있음
+    // TODO - TextView 가 잘 반영되지 않는 문제가 있음(No Event Today 가 표시되지 않을 때가 있음)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +75,7 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
     }
 
     // TODO - 추후 DB 에 날짜를 Date 에서 Month / Weak / Day 로 Column 저장
-    // TODO - Code Refactoring
+    // TODO - Code Refactoring 필요
    @Override
     protected void onResume() {
         super.onResume();
@@ -135,6 +135,7 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
         return true;
     }
 
+    // WorkoutNamesListActivity 진입
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -142,6 +143,7 @@ public class CalendarActivity extends AppCompatActivity implements OnDayClickLis
             case R.id.database:
                 Intent intent = new Intent(this, WorkoutNameListActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_enter,R.anim.slide_exit);
         }
         return super.onOptionsItemSelected(item);
     }

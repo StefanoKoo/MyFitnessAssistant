@@ -1,6 +1,6 @@
 package com.example.myfitnessassistant;
 
-import data.Workout;
+import com.example.myfitnessassistant.data.Workout;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 
-public class PopUpActivity extends Activity implements View.OnClickListener {
+public class WorkoutsDialog extends Activity implements View.OnClickListener {
     private EditText mNameWorkout, mWeightWorkout, mSetsWorkout, mRepsWorkout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

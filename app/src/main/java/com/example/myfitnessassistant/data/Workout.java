@@ -1,10 +1,7 @@
-package data;
+package com.example.myfitnessassistant.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 public class Workout implements Parcelable {
     private int id;

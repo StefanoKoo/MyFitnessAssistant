@@ -1,9 +1,8 @@
-package data;
+package com.example.myfitnessassistant.data;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;

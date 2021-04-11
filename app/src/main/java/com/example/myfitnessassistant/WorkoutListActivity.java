@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-import data.DateWorkout;
-import data.DateWorkoutDatabase;
-import data.Workout;
-import data.WorkoutDatabase;
+import com.example.myfitnessassistant.data.DateWorkout;
+import com.example.myfitnessassistant.data.DateWorkoutDatabase;
+import com.example.myfitnessassistant.data.Workout;
+import com.example.myfitnessassistant.data.WorkoutDatabase;
 
 import android.content.Context;
 import android.content.Intent;
@@ -165,7 +165,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     // Floating Action Button Click
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(this,PopUpActivity.class);
+        Intent intent = new Intent(this, WorkoutsDialog.class);
         startActivityForResult(intent,REQUEST_POP_UP);
     }
 
@@ -199,7 +199,7 @@ public class WorkoutListActivity extends AppCompatActivity implements WorkoutsRe
     @Override
     public void onWorkoutSwipe(int position, int direction) {
         Log.d(TAG,"onWorkoutSwipe Called");
-        Intent intent = new Intent(this,PopUpActivity.class);
+        Intent intent = new Intent(this, WorkoutsDialog.class);
         intent.putExtra("Edit Workout",mWorkouts.get(position));
         startActivityForResult(intent,REQUEST_EDIT);
     }

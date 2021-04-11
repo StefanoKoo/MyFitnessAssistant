@@ -5,9 +5,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,8 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-import data.WorkoutName;
-import data.WorkoutNameDatabase;
+import com.example.myfitnessassistant.data.WorkoutName;
+import com.example.myfitnessassistant.data.WorkoutNameDatabase;
 
 class WorkoutNamesRecyclerAdapter extends RecyclerView.Adapter<WorkoutNamesRecyclerAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 

@@ -1,11 +1,9 @@
-package data;
+package com.example.myfitnessassistant.data;
 
 import android.util.Log;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

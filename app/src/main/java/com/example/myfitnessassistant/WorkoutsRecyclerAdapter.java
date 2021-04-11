@@ -19,9 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
-import data.DateWorkoutDatabase;
-import data.Workout;
-import data.WorkoutDatabase;
+import com.example.myfitnessassistant.data.DateWorkoutDatabase;
+import com.example.myfitnessassistant.data.Workout;
+import com.example.myfitnessassistant.data.WorkoutDatabase;
 
 class WorkoutsRecyclerAdapter extends RecyclerView.Adapter<WorkoutsRecyclerAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
