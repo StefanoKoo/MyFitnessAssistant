@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFitnessAssistant">
-        <activity android:name=".WorkoutNamesDialog"></activity>
+        <activity
+            android:name=".WorkoutNamesDialog"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.Dialog"></activity>
         <activity
             android:name=".WorkoutNameListActivity"
             android:launchMode="singleTop" />

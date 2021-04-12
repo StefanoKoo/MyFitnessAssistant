@@ -16,7 +16,7 @@ public class WorkoutsDialog extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_pop_up);
+        setContentView(R.layout.activity_workouts_dialog);
 
         initLayout();
     }
@@ -50,13 +50,13 @@ public class WorkoutsDialog extends Activity implements View.OnClickListener {
         String reps = mRepsWorkout.getText().toString();
         Workout mWorkout = new Workout();
 
-        boolean b = (name.length() == 0 || weight.length() == 0 || sets.length() == 0 || reps.length() == 0);
+        boolean isEmpty = (name.length() == 0 || weight.length() == 0 || sets.length() == 0 || reps.length() == 0);
 
         switch (view.getId()) {
             case(R.id.button_confirm):
                 // MakeRoutine Activity 로 결과 전송
                 Log.d("PopUpActivity","Confirm Button Clicked");
-                if (b) {
+                if (isEmpty) {
                     finish();
                     break;
                 }
@@ -71,7 +71,7 @@ public class WorkoutsDialog extends Activity implements View.OnClickListener {
                 break;
             case(R.id.button_cancel):
                 Log.d("PopUpActivity","Cancel Button Clicked");
-                if (b) {
+                if (isEmpty) {
                     finish();
                     break;
                 }

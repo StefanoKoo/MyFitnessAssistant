@@ -9,13 +9,15 @@ import androidx.room.Room;
 import com.example.myfitnessassistant.data.WorkoutNameDatabase;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
-public class WorkoutNameListActivity extends AppCompatActivity {
+public class WorkoutNameListActivity extends AppCompatActivity implements View.OnClickListener{
     private static String TAG = WorkoutNameListActivity.class.getSimpleName();
 
     private Toolbar mToolbar;
@@ -31,6 +33,10 @@ public class WorkoutNameListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout_name_list);
 
+        initLayout();
+    }
+
+    private void initLayout() {
         // Toolbar
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -41,7 +47,17 @@ public class WorkoutNameListActivity extends AppCompatActivity {
         mActionbar.setDisplayHomeAsUpEnabled(true);
         mActionbar.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_20);
 
+        // Floating Button('+')
+        findViewById(R.id.add_button).setOnClickListener(this);
+
+        // Workout Name Database Init
         db_workout_name = Room.databaseBuilder(this,WorkoutNameDatabase.class,"DB_Workout_name").allowMainThreadQueries().build();
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(this,WorkoutNamesDialog.class);
+        startActivity(intent);
     }
 
     @Override

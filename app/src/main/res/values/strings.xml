@@ -2,6 +2,7 @@
     <string name="app_name">MyFitnessAssistant</string>
     <string name="cancel">취소</string>
     <string name="confirm">확인</string>
+    <string name="add">추가</string>
     <string name="name_workout">종목</string>
     <string name="weight_workout">무게</string>
     <string name="sets_workout">세트</string>
